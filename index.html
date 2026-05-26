@@ -36,8 +36,8 @@ nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-bot
 .nav-links{display:flex;gap:2rem;list-style:none}
 .nav-links a{font-family:var(--sans);font-size:.75rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.8);text-decoration:none;transition:color .3s;position:relative}
 .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
-.nav-links a:hover{color:var(--gold2)}
-.nav-links a:hover::after{width:100%}
+.nav-links a:hover,.nav-links a.active-link{color:var(--gold2)}
+.nav-links a.active-link::after,.nav-links a:hover::after{width:100%}
 .nav-icons{display:flex;gap:1.2rem;align-items:center}
 .nav-icon{background:none;border:none;color:rgba(255,255,255,.8);cursor:pointer;font-size:1.1rem;transition:color .3s;padding:.3rem}
 .nav-icon:hover{color:var(--gold2)}
@@ -49,6 +49,32 @@ nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-bot
 .mobile-menu a:hover{color:var(--gold2)}
 .mobile-close{position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;color:var(--gold2);font-size:2rem;cursor:pointer}
 
+/* SEARCH MODAL */
+.search-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);backdrop-filter:blur(20px);z-index:2000;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:8rem;opacity:0;pointer-events:none;transition:opacity .35s ease}
+.search-overlay.open{opacity:1;pointer-events:all}
+.search-modal{width:90%;max-width:700px;animation:slideDown .35s ease}
+@keyframes slideDown{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:translateY(0)}}
+.search-input-wrap{display:flex;align-items:center;gap:1rem;border-bottom:2px solid var(--gold);padding-bottom:1rem;margin-bottom:2rem}
+.search-input-wrap svg{flex-shrink:0;color:var(--gold)}
+.search-input{flex:1;background:none;border:none;outline:none;font-family:var(--serif);font-size:2rem;color:var(--white);letter-spacing:.05em}
+.search-input::placeholder{color:rgba(255,255,255,.3)}
+.search-close-btn{background:none;border:1px solid rgba(201,168,76,.3);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gold);font-size:1.2rem;transition:all .3s;flex-shrink:0}
+.search-close-btn:hover{background:var(--gold);color:var(--black)}
+.search-results{max-height:50vh;overflow-y:auto}
+.search-section-label{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid rgba(201,168,76,.1)}
+.search-result-item{display:flex;align-items:center;gap:1rem;padding:1rem;border-radius:4px;cursor:pointer;transition:background .3s;margin-bottom:.4rem}
+.search-result-item:hover{background:rgba(201,168,76,.08)}
+.search-result-thumb{width:50px;height:50px;border-radius:2px;background:linear-gradient(135deg,#1a1200,#2a2000);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+.search-result-thumb img{width:100%;height:100%;object-fit:cover}
+.search-result-name{font-family:var(--serif);font-size:1rem;color:var(--white)}
+.search-result-name mark{background:none;color:var(--gold2);font-style:italic}
+.search-result-sub{font-size:.7rem;color:var(--gray);letter-spacing:.1em}
+.search-result-price{font-family:var(--serif);font-size:.9rem;color:var(--gold);margin-left:auto;white-space:nowrap}
+.search-empty{text-align:center;padding:3rem;font-family:var(--serif);font-size:1.3rem;color:rgba(255,255,255,.3)}
+.search-suggestions{display:flex;flex-wrap:wrap;gap:.7rem;margin-bottom:2rem}
+.search-suggestion-chip{padding:.4rem 1rem;border:1px solid rgba(201,168,76,.25);border-radius:20px;font-size:.7rem;letter-spacing:.1em;color:rgba(255,255,255,.6);cursor:pointer;transition:all .3s}
+.search-suggestion-chip:hover{border-color:var(--gold);color:var(--gold2)}
+
 /* PAGES */
 .page{display:none;min-height:100vh}
 .page.active{display:block}
@@ -56,7 +82,23 @@ nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-bot
 /* HERO */
 .hero{height:100vh;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0a0a0a 0%,#1a1200 50%,#0a0a0a 100%)}
+/* hero background image layer */
+.hero-bg-img{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1600&q=80');background-size:cover;background-position:center;opacity:.18;animation:slowZoom 20s ease-in-out infinite alternate}
+@keyframes slowZoom{from{transform:scale(1)}to{transform:scale(1.08)}}
 .hero-overlay{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(201,168,76,.08) 0%,transparent 70%)}
+/* floating image cards */
+.hero-float-images{position:absolute;inset:0;pointer-events:none}
+.hero-float-card{position:absolute;border-radius:4px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.6);border:1px solid rgba(201,168,76,.25)}
+.hero-float-card img{width:100%;height:100%;object-fit:cover;display:block}
+.hfc-1{width:180px;height:220px;top:12%;right:8%;animation:floatCard1 6s ease-in-out infinite}
+.hfc-2{width:140px;height:170px;top:45%;right:4%;animation:floatCard2 7s ease-in-out infinite 1s}
+.hfc-3{width:160px;height:200px;bottom:12%;right:14%;animation:floatCard1 8s ease-in-out infinite .5s}
+.hfc-4{width:120px;height:150px;top:20%;left:5%;animation:floatCard2 9s ease-in-out infinite 2s}
+.hfc-5{width:140px;height:180px;bottom:15%;left:8%;animation:floatCard1 7s ease-in-out infinite 1.5s}
+@keyframes floatCard1{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-18px) rotate(1deg)}}
+@keyframes floatCard2{0%,100%{transform:translateY(0) rotate(2deg)}50%{transform:translateY(-14px) rotate(-1deg)}}
+@media(max-width:768px){.hfc-4,.hfc-5,.hfc-3{display:none}.hfc-1{width:110px;height:140px;right:3%;top:15%}.hfc-2{width:95px;height:120px;right:2%;top:48%}}
+
 .hero-particles{position:absolute;inset:0;overflow:hidden}
 .particle{position:absolute;width:2px;height:2px;background:var(--gold);border-radius:50%;animation:float linear infinite;opacity:.6}
 .hero-content{position:relative;text-align:center;z-index:2;padding:2rem;max-width:900px}
@@ -92,28 +134,26 @@ nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-bot
 .marquee-dot{color:var(--gold2);margin:0 .5rem}
 @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
-/* CATEGORIES */
+/* CATEGORIES — with real images */
 .categories-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.5rem}
 .cat-card{position:relative;border-radius:4px;overflow:hidden;cursor:pointer;aspect-ratio:3/4;background:var(--dark2);transition:transform .4s}
 .cat-card:hover{transform:translateY(-8px)}
-.cat-card-img{width:100%;height:100%;object-fit:cover;transition:transform .6s;filter:brightness(.7)}
-.cat-card:hover .cat-card-img{transform:scale(1.08);filter:brightness(.5)}
+.cat-card-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .6s,filter .6s;filter:brightness(.65)}
+.cat-card:hover .cat-card-bg{transform:scale(1.08);filter:brightness(.4)}
 .cat-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,transparent 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:1.5rem}
 .cat-card-name{font-family:var(--serif);font-size:1.3rem;color:var(--white);margin-bottom:.3rem}
 .cat-card-count{font-size:.65rem;letter-spacing:.2em;color:var(--gold);text-transform:uppercase}
 .cat-card-arrow{position:absolute;bottom:1.5rem;right:1.5rem;width:35px;height:35px;border:1px solid rgba(201,168,76,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:.8rem;opacity:0;transform:scale(.8);transition:all .3s}
 .cat-card:hover .cat-card-arrow{opacity:1;transform:scale(1)}
 
-/* PRODUCTS */
+/* PRODUCTS — with real images */
 .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2rem}
 .product-card{background:var(--dark2);border:1px solid rgba(201,168,76,.1);border-radius:4px;overflow:hidden;transition:all .4s;cursor:pointer;position:relative}
 .product-card:hover{transform:translateY(-8px);border-color:rgba(201,168,76,.3);box-shadow:0 20px 60px rgba(0,0,0,.5)}
 .product-img-wrap{position:relative;aspect-ratio:1;overflow:hidden;background:#111}
-.product-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.product-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .6s;display:block}
 .product-card:hover .product-img-wrap img{transform:scale(1.08)}
 .product-badge{position:absolute;top:1rem;left:1rem;background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--black);font-size:.6rem;font-weight:700;letter-spacing:.15em;padding:.3rem .7rem;text-transform:uppercase}
-.product-wishlist{position:absolute;top:1rem;right:1rem;width:36px;height:36px;background:rgba(0,0,0,.6);backdrop-filter:blur(10px);border:1px solid rgba(201,168,76,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;color:rgba(255,255,255,.5);font-size:.9rem}
-.product-wishlist:hover,.product-wishlist.active{color:#e74c3c;border-color:rgba(231,76,60,.4)}
 .product-quick{position:absolute;bottom:0;left:0;right:0;background:rgba(201,168,76,.9);color:var(--black);font-family:var(--sans);font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:.8rem;text-align:center;transform:translateY(100%);transition:transform .3s;cursor:pointer}
 .product-card:hover .product-quick{transform:translateY(0)}
 .product-info{padding:1.2rem}
@@ -150,6 +190,14 @@ nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-bot
 .about-feature-icon{width:40px;height:40px;background:linear-gradient(135deg,rgba(201,168,76,.2),rgba(232,201,122,.1));border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1rem;flex-shrink:0}
 .about-feature-text h4{font-family:var(--serif);font-size:1rem;color:var(--white);margin-bottom:.3rem}
 .about-feature-text p{font-size:.75rem;color:rgba(255,255,255,.5);line-height:1.6}
+/* about image grid */
+.about-img-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;position:relative}
+.about-img-main{grid-column:span 2;border-radius:4px;overflow:hidden;aspect-ratio:16/9}
+.about-img-main img{width:100%;height:100%;object-fit:cover;transition:transform .6s;display:block}
+.about-img-main:hover img{transform:scale(1.04)}
+.about-img-small{border-radius:4px;overflow:hidden;aspect-ratio:1}
+.about-img-small img{width:100%;height:100%;object-fit:cover;transition:transform .6s;display:block}
+.about-img-small:hover img{transform:scale(1.06)}
 
 /* STATS */
 .stats-section{background:linear-gradient(135deg,#1a1200,var(--dark),#1a1200);border-top:1px solid rgba(201,168,76,.15);border-bottom:1px solid rgba(201,168,76,.15);padding:4rem 2rem}
@@ -165,7 +213,9 @@ nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-bot
 .testimonial-stars{color:var(--gold);font-size:1rem;letter-spacing:3px;margin-bottom:1.5rem}
 .testimonial-text{font-family:var(--serif);font-size:1.1rem;color:rgba(255,255,255,.8);line-height:1.8;margin-bottom:2rem;font-style:italic}
 .testimonial-author{display:flex;align-items:center;gap:1rem}
-.author-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1.3rem;color:var(--black);font-weight:600}
+.author-avatar{width:48px;height:48px;border-radius:50%;overflow:hidden;flex-shrink:0}
+.author-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.author-avatar-fallback{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1.3rem;color:var(--black);font-weight:600}
 .author-name{font-family:var(--serif);font-size:1rem;color:var(--white)}
 .author-location{font-size:.7rem;color:var(--gold);letter-spacing:.1em}
 
@@ -207,7 +257,7 @@ nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-bot
 .blog-card{background:var(--dark2);border:1px solid rgba(201,168,76,.1);border-radius:4px;overflow:hidden;transition:all .4s;cursor:pointer}
 .blog-card:hover{transform:translateY(-8px);border-color:rgba(201,168,76,.3)}
 .blog-img{aspect-ratio:16/9;overflow:hidden;background:#111}
-.blog-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.blog-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s;display:block}
 .blog-card:hover .blog-img img{transform:scale(1.08)}
 .blog-content{padding:1.5rem}
 .blog-tag{font-size:.6rem;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:.8rem;display:block}
@@ -222,7 +272,8 @@ nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-bot
 .offer-card{background:linear-gradient(135deg,var(--dark2),#1a1200);border:1px solid rgba(201,168,76,.2);border-radius:4px;padding:2.5rem;text-align:center;transition:all .4s;position:relative;overflow:hidden}
 .offer-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,.08),transparent 70%)}
 .offer-card:hover{transform:translateY(-8px);box-shadow:0 20px 60px rgba(201,168,76,.1)}
-.offer-icon{font-size:3rem;margin-bottom:1rem;display:block}
+.offer-icon-wrap{width:64px;height:64px;margin:0 auto 1.2rem;background:linear-gradient(135deg,rgba(201,168,76,.18),rgba(232,201,122,.08));border:1px solid rgba(201,168,76,.35);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.offer-icon-svg{width:30px;height:30px;fill:none;stroke:var(--gold2);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 .offer-title{font-family:var(--serif);font-size:1.5rem;color:var(--gold2);margin-bottom:.5rem}
 .offer-discount{font-family:var(--serif);font-size:3rem;font-weight:700;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .offer-desc{font-size:.8rem;color:rgba(255,255,255,.5);line-height:1.8;margin:1rem 0}
@@ -231,9 +282,13 @@ nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-bot
 
 /* JEWELLERY CARE */
 .care-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2rem}
-.care-card{background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.1);border-radius:4px;padding:2.5rem;transition:all .4s}
+.care-card{background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.1);border-radius:4px;overflow:hidden;transition:all .4s}
 .care-card:hover{border-color:rgba(201,168,76,.3);transform:translateY(-5px)}
-.care-icon{width:60px;height:60px;background:linear-gradient(135deg,rgba(201,168,76,.2),rgba(232,201,122,.1));border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1.5rem}
+.care-card-img{aspect-ratio:16/9;overflow:hidden;background:#111}
+.care-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s;display:block}
+.care-card:hover .care-card-img img{transform:scale(1.06)}
+.care-card-body{padding:1.5rem}
+.care-icon{font-size:1.5rem;margin-bottom:1rem;display:block}
 .care-title{font-family:var(--serif);font-size:1.3rem;color:var(--white);margin-bottom:.8rem}
 .care-tips{list-style:none;display:flex;flex-direction:column;gap:.7rem}
 .care-tips li{font-size:.8rem;color:rgba(255,255,255,.6);line-height:1.6;padding-left:1.2rem;position:relative}
@@ -246,21 +301,17 @@ nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-bot
 .step-num{width:50px;height:50px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--black);font-family:var(--serif);font-size:1.5rem;font-weight:600;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .step-content h4{font-family:var(--serif);font-size:1.2rem;color:var(--white);margin-bottom:.4rem}
 .step-content p{font-size:.8rem;color:rgba(255,255,255,.5);line-height:1.8}
-.custom-img-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.custom-img{border-radius:4px;overflow:hidden;aspect-ratio:1;background:var(--dark2)}
-.custom-img:first-child{grid-column:span 2;aspect-ratio:16/9}
-.custom-img img{width:100%;height:100%;object-fit:cover;filter:brightness(.8)}
 
 /* PRODUCT DETAIL */
 .product-detail{max-width:1200px;margin:0 auto;padding:2rem}
 .pd-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
 .pd-gallery{position:sticky;top:100px}
 .pd-main-img{aspect-ratio:1;border-radius:4px;overflow:hidden;background:var(--dark2);margin-bottom:1rem}
-.pd-main-img img{width:100%;height:100%;object-fit:cover}
+.pd-main-img img{width:100%;height:100%;object-fit:cover;display:block}
 .pd-thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem}
 .pd-thumb{aspect-ratio:1;border-radius:2px;overflow:hidden;background:var(--dark2);cursor:pointer;border:2px solid transparent;transition:border-color .3s}
 .pd-thumb.active,.pd-thumb:hover{border-color:var(--gold)}
-.pd-thumb img{width:100%;height:100%;object-fit:cover;filter:brightness(.8)}
+.pd-thumb img{width:100%;height:100%;object-fit:cover;filter:brightness(.8);display:block}
 .pd-info .product-material{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:block}
 .pd-title{font-family:var(--serif);font-size:2.5rem;color:var(--white);line-height:1.2;margin-bottom:1rem}
 .pd-price-row{display:flex;align-items:center;gap:1.5rem;margin-bottom:1.5rem}
@@ -275,6 +326,66 @@ nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-bot
 .pd-spec-key{color:var(--gray)}
 .pd-spec-val{color:var(--white)}
 .pd-btns{display:flex;gap:1rem;flex-wrap:wrap}
+
+/* SHOP FILTERS */
+.shop-layout{display:grid;grid-template-columns:240px 1fr;gap:3rem;max-width:1400px;margin:0 auto;padding:3rem 2rem}
+.shop-filters{background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.1);border-radius:4px;padding:2rem;height:fit-content;position:sticky;top:100px}
+.filter-title{font-family:var(--serif);font-size:1.2rem;color:var(--white);margin-bottom:1.5rem;padding-bottom:.8rem;border-bottom:1px solid rgba(201,168,76,.1);display:flex;justify-content:space-between;align-items:center}
+.filter-reset{font-size:.65rem;letter-spacing:.15em;color:var(--gold);background:none;border:none;cursor:pointer;font-family:var(--sans);text-transform:uppercase;transition:color .3s}
+.filter-reset:hover{color:var(--gold2)}
+.filter-group{margin-bottom:2rem}
+.filter-group h4{font-size:.7rem;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem}
+.filter-check{display:flex;align-items:center;gap:.7rem;margin-bottom:.7rem;cursor:pointer}
+.filter-check input[type=checkbox]{accent-color:var(--gold);width:14px;height:14px;cursor:pointer}
+.filter-check label{font-size:.8rem;color:rgba(255,255,255,.6);cursor:pointer;transition:color .3s}
+.filter-check:hover label{color:var(--gold2)}
+.price-range{display:flex;gap:.5rem;align-items:center}
+.price-input{width:80px;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);padding:.5rem;color:var(--white);font-size:.75rem;border-radius:2px;outline:none}
+.price-input:focus{border-color:var(--gold)}
+.filter-apply{width:100%;padding:.8rem;background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--black);font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;border:none;cursor:pointer;border-radius:2px;margin-top:1rem}
+.no-results{grid-column:1/-1;text-align:center;padding:4rem;font-family:var(--serif);font-size:1.5rem;color:rgba(255,255,255,.3)}
+@keyframes fadeProduct{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.product-card.fade-in{animation:fadeProduct .4s ease both}
+
+/* COLLECTIONS PAGE */
+.collection-hero{height:60vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.collection-hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0a0a0a 0%,#2a1a00 50%,#0a0a0a 100%)}
+.collections-showcase{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.collection-big{grid-column:span 2;grid-row:span 2}
+.showcase-card{position:relative;border-radius:4px;overflow:hidden;cursor:pointer;background:var(--dark2);min-height:200px}
+.showcase-card img{width:100%;height:100%;object-fit:cover;min-height:200px;transition:transform .6s;filter:brightness(.6);display:block}
+.collection-big img{min-height:400px}
+.showcase-card:hover img{transform:scale(1.06);filter:brightness(.4)}
+.showcase-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:2rem;background:linear-gradient(to top,rgba(0,0,0,.8),transparent 50%)}
+.showcase-title{font-family:var(--serif);font-size:1.8rem;color:var(--white);margin-bottom:.3rem}
+.showcase-sub{font-size:.7rem;letter-spacing:.2em;color:var(--gold);text-transform:uppercase}
+
+/* TIMELINE */
+.timeline{max-width:800px;margin:0 auto;position:relative}
+.timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--gold),transparent);transform:translateX(-50%)}
+.timeline-item{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:3rem;position:relative}
+.timeline-item:nth-child(even) .timeline-content{grid-column:2;grid-row:1}
+.timeline-item:nth-child(even) .timeline-year{grid-column:1;grid-row:1;text-align:right}
+.timeline-dot{position:absolute;left:50%;top:1rem;width:12px;height:12px;background:var(--gold);border-radius:50%;transform:translateX(-50%);box-shadow:0 0 0 4px rgba(201,168,76,.2)}
+.timeline-year{font-family:var(--serif);font-size:2rem;color:var(--gold2);display:flex;align-items:flex-start}
+.timeline-content{background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.1);border-radius:4px;padding:1.5rem}
+.timeline-content h4{font-family:var(--serif);font-size:1.1rem;color:var(--white);margin-bottom:.5rem}
+.timeline-content p{font-size:.8rem;color:rgba(255,255,255,.5);line-height:1.8}
+
+/* BANNER */
+.promo-banner{background:linear-gradient(135deg,#1a1200,#2a2000,#1a1200);border-top:1px solid rgba(201,168,76,.2);border-bottom:1px solid rgba(201,168,76,.2);padding:3rem 2rem;text-align:center;position:relative;overflow:hidden}
+.promo-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(201,168,76,.06),transparent)}
+.promo-text{font-family:var(--serif);font-size:clamp(1.5rem,3vw,2.5rem);color:var(--gold2)}
+.promo-sub{font-size:.8rem;letter-spacing:.3em;color:rgba(255,255,255,.5);text-transform:uppercase;margin:.5rem 0 2rem}
+
+/* PAGE HERO */
+.page-hero{height:40vh;display:flex;align-items:center;justify-content:center;position:relative;background:linear-gradient(135deg,#0a0a0a,#1a1200,#0a0a0a)}
+.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(201,168,76,.1),transparent 60%)}
+.page-hero-content{position:relative;text-align:center}
+.page-hero-title{font-family:var(--serif);font-size:clamp(2.5rem,5vw,5rem);font-weight:300;color:var(--white)}
+.page-hero-title span{color:var(--gold2)}
+.breadcrumb{font-size:.7rem;letter-spacing:.2em;color:rgba(255,255,255,.4);text-transform:uppercase;margin-top:1rem}
+.breadcrumb span{color:var(--gold)}
 
 /* FOOTER */
 footer{background:var(--black);border-top:1px solid rgba(201,168,76,.15);padding:5rem 2rem 2rem}
@@ -311,47 +422,10 @@ footer{background:var(--black);border-top:1px solid rgba(201,168,76,.15);padding
 .back-btn{display:inline-flex;align-items:center;gap:.5rem;color:var(--gold);font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;background:none;border:none;cursor:pointer;margin:2rem;transition:color .3s;font-family:var(--sans)}
 .back-btn:hover{color:var(--gold2)}
 
-/* PAGE HERO */
-.page-hero{height:40vh;display:flex;align-items:center;justify-content:center;position:relative;background:linear-gradient(135deg,#0a0a0a,#1a1200,#0a0a0a)}
-.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(201,168,76,.1),transparent 60%)}
-.page-hero-content{position:relative;text-align:center}
-.page-hero-title{font-family:var(--serif);font-size:clamp(2.5rem,5vw,5rem);font-weight:300;color:var(--white)}
-.page-hero-title span{color:var(--gold2)}
-.breadcrumb{font-size:.7rem;letter-spacing:.2em;color:rgba(255,255,255,.4);text-transform:uppercase;margin-top:1rem}
-.breadcrumb span{color:var(--gold)}
-
-/* SHOP FILTERS */
-.shop-layout{display:grid;grid-template-columns:240px 1fr;gap:3rem;max-width:1400px;margin:0 auto;padding:3rem 2rem}
-.shop-filters{background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.1);border-radius:4px;padding:2rem;height:fit-content;position:sticky;top:100px}
-.filter-title{font-family:var(--serif);font-size:1.2rem;color:var(--white);margin-bottom:1.5rem;padding-bottom:.8rem;border-bottom:1px solid rgba(201,168,76,.1)}
-.filter-group{margin-bottom:2rem}
-.filter-group h4{font-size:.7rem;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem}
-.filter-check{display:flex;align-items:center;gap:.7rem;margin-bottom:.7rem;cursor:pointer}
-.filter-check input[type=checkbox]{accent-color:var(--gold);width:14px;height:14px;cursor:pointer}
-.filter-check label{font-size:.8rem;color:rgba(255,255,255,.6);cursor:pointer;transition:color .3s}
-.filter-check:hover label{color:var(--gold2)}
-.price-range{display:flex;gap:.5rem;align-items:center}
-.price-input{width:80px;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);padding:.5rem;color:var(--white);font-size:.75rem;border-radius:2px;outline:none}
-.price-input:focus{border-color:var(--gold)}
-.filter-apply{width:100%;padding:.8rem;background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--black);font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;border:none;cursor:pointer;border-radius:2px;margin-top:1rem}
-
-/* TIMELINE */
-.timeline{max-width:800px;margin:0 auto;position:relative}
-.timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--gold),transparent);transform:translateX(-50%)}
-.timeline-item{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:3rem;position:relative}
-.timeline-item:nth-child(even) .timeline-content{grid-column:2;grid-row:1}
-.timeline-item:nth-child(even) .timeline-year{grid-column:1;grid-row:1;text-align:right}
-.timeline-dot{position:absolute;left:50%;top:1rem;width:12px;height:12px;background:var(--gold);border-radius:50%;transform:translateX(-50%);box-shadow:0 0 0 4px rgba(201,168,76,.2)}
-.timeline-year{font-family:var(--serif);font-size:2rem;color:var(--gold2);display:flex;align-items:flex-start}
-.timeline-content{background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.1);border-radius:4px;padding:1.5rem}
-.timeline-content h4{font-family:var(--serif);font-size:1.1rem;color:var(--white);margin-bottom:.5rem}
-.timeline-content p{font-size:.8rem;color:rgba(255,255,255,.5);line-height:1.8}
-
-/* BANNER */
-.promo-banner{background:linear-gradient(135deg,#1a1200,#2a2000,#1a1200);border-top:1px solid rgba(201,168,76,.2);border-bottom:1px solid rgba(201,168,76,.2);padding:3rem 2rem;text-align:center;position:relative;overflow:hidden}
-.promo-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(201,168,76,.06),transparent)}
-.promo-text{font-family:var(--serif);font-size:clamp(1.5rem,3vw,2.5rem);color:var(--gold2)}
-.promo-sub{font-size:.8rem;letter-spacing:.3em;color:rgba(255,255,255,.5);text-transform:uppercase;margin:.5rem 0 2rem}
+/* SCROLL BAR */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--black)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
 
 /* RESPONSIVE */
 @media(max-width:1024px){
@@ -364,6 +438,8 @@ footer{background:var(--black);border-top:1px solid rgba(201,168,76,.15);padding
 .timeline-item:nth-child(even) .timeline-content,.timeline-item:nth-child(even) .timeline-year{grid-column:1;grid-row:auto;text-align:left}
 .timeline-dot{left:20px}
 .about-badge{right:0;bottom:-1rem}
+.collections-showcase{grid-template-columns:1fr 1fr}
+.collection-big{grid-column:span 2}
 }
 @media(max-width:768px){
 .nav-links{display:none}
@@ -373,10 +449,10 @@ footer{background:var(--black);border-top:1px solid rgba(201,168,76,.15);padding
 .hero-btns{flex-direction:column;align-items:center}
 .form-row{grid-template-columns:1fr}
 .about-features{grid-template-columns:1fr}
-.custom-img-grid{grid-template-columns:1fr}
-.custom-img:first-child{grid-column:1}
 .pd-thumbs{grid-template-columns:repeat(4,1fr)}
 .footer-bottom{flex-direction:column;text-align:center}
+.about-img-grid{grid-template-columns:1fr}
+.about-img-main{grid-column:1}
 }
 @media(max-width:480px){
 .section{padding:4rem 1.2rem}
@@ -386,35 +462,37 @@ footer{background:var(--black);border-top:1px solid rgba(201,168,76,.15);padding
 .product-price{font-size:1rem}
 nav{padding:.8rem 1.2rem}
 }
-
-/* COLLECTIONS PAGE SPECIFIC */
-.collection-hero{height:60vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.collection-hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0a0a0a 0%,#2a1a00 50%,#0a0a0a 100%)}
-.collections-showcase{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-.collection-big{grid-column:span 2;grid-row:span 2}
-.showcase-card{position:relative;border-radius:4px;overflow:hidden;cursor:pointer;background:var(--dark2)}
-.showcase-card img{width:100%;height:100%;object-fit:cover;min-height:200px;transition:transform .6s;filter:brightness(.65)}
-.showcase-card:hover img{transform:scale(1.06);filter:brightness(.45)}
-.showcase-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:2rem;background:linear-gradient(to top,rgba(0,0,0,.8),transparent 50%)}
-.showcase-title{font-family:var(--serif);font-size:1.8rem;color:var(--white);margin-bottom:.3rem}
-.showcase-sub{font-size:.7rem;letter-spacing:.2em;color:var(--gold);text-transform:uppercase}
-
-/* SCROLL BAR */
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-track{background:var(--black)}
-::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
 </style>
 </head>
 <body>
 
 <!-- LOADER -->
 <div id="loader">
-  <img class="loader-logo" src="https://i.imgur.com/placeholder.png" alt="Shubhi Jewellers" onerror="this.style.display='none'" id="loaderLogo">
-  <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#c9a84c,#e8c97a);display:flex;align-items:center;justify-content:center;animation:loaderPulse 1.5s ease-in-out infinite" id="loaderFallback">
+  <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#c9a84c,#e8c97a);display:flex;align-items:center;justify-content:center;animation:loaderPulse 1.5s ease-in-out infinite">
     <span style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:#0a0a0a">S</span>
   </div>
   <div class="loader-text">SHUBHI JEWELLERS</div>
   <div class="loader-bar"><div class="loader-progress"></div></div>
+</div>
+
+<!-- SEARCH MODAL -->
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="offer-icon-svg" width="28" height="28" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input class="search-input" id="searchInput" type="text" placeholder="Search jewellery, collections..." autocomplete="off">
+      <button class="search-close-btn" onclick="closeSearch()">&#10005;</button>
+    </div>
+    <div class="search-suggestions" id="searchSuggestions">
+      <span class="search-suggestion-chip" onclick="setSearch('Gold Rings')">Gold Rings</span>
+      <span class="search-suggestion-chip" onclick="setSearch('Diamond Necklace')">Diamond Necklace</span>
+      <span class="search-suggestion-chip" onclick="setSearch('Bridal Set')">Bridal Set</span>
+      <span class="search-suggestion-chip" onclick="setSearch('Earrings')">Earrings</span>
+      <span class="search-suggestion-chip" onclick="setSearch('Mangalsutra')">Mangalsutra</span>
+      <span class="search-suggestion-chip" onclick="setSearch('Silver')">Silver</span>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
 </div>
 
 <!-- NAVBAR -->
@@ -431,19 +509,20 @@ nav{padding:.8rem 1.2rem}
         </div>
       </div>
     </a>
-    <ul class="nav-links">
-      <li><a href="#" onclick="showPage('home')">Home</a></li>
-      <li><a href="#" onclick="showPage('shop')">Shop</a></li>
-      <li><a href="#" onclick="showPage('collections')">Collections</a></li>
-      <li><a href="#" onclick="showPage('categories')">Categories</a></li>
-      <li><a href="#" onclick="showPage('offers')">Offers</a></li>
-      <li><a href="#" onclick="showPage('about')">About</a></li>
-      <li><a href="#" onclick="showPage('contact')">Contact</a></li>
-      <li><a href="#" onclick="showPage('blog')">Blog</a></li>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#" onclick="showPage('home')" data-page="home">Home</a></li>
+      <li><a href="#" onclick="showPage('shop')" data-page="shop">Shop</a></li>
+      <li><a href="#" onclick="showPage('collections')" data-page="collections">Collections</a></li>
+      <li><a href="#" onclick="showPage('categories')" data-page="categories">Categories</a></li>
+      <li><a href="#" onclick="showPage('offers')" data-page="offers">Offers</a></li>
+      <li><a href="#" onclick="showPage('about')" data-page="about">About</a></li>
+      <li><a href="#" onclick="showPage('contact')" data-page="contact">Contact</a></li>
+      <li><a href="#" onclick="showPage('blog')" data-page="blog">Blog</a></li>
     </ul>
     <div class="nav-icons">
-      <button class="nav-icon" onclick="showToast('Search coming soon!')" title="Search">&#128269;</button>
-      <button class="nav-icon" onclick="showToast('Wishlist saved!')" title="Wishlist">&#9825;</button>
+      <button class="nav-icon" onclick="openSearch()" title="Search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
       <button class="hamburger" id="hamburger" onclick="toggleMenu()">
         <span></span><span></span><span></span>
       </button>
@@ -475,9 +554,28 @@ nav{padding:.8rem 1.2rem}
 <div class="page active" id="page-home">
 
   <!-- HERO -->
-  <section class="hero">
+  <section class="hero" id="section-home">
     <div class="hero-bg"></div>
+    <div class="hero-bg-img"></div>
     <div class="hero-overlay"></div>
+    <!-- Floating image cards -->
+    <div class="hero-float-images">
+      <div class="hero-float-card hfc-1">
+        <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&q=80" alt="Luxury diamond ring jewellery" loading="lazy">
+      </div>
+      <div class="hero-float-card hfc-2">
+        <img src="https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=400&q=80" alt="Gold necklace jewellery" loading="lazy">
+      </div>
+      <div class="hero-float-card hfc-3">
+        <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&q=80" alt="Bridal jewellery earrings" loading="lazy">
+      </div>
+      <div class="hero-float-card hfc-4">
+        <img src="https://images.unsplash.com/photo-1573408301185-9519f94798b5?w=400&q=80" alt="Gold ring collection" loading="lazy">
+      </div>
+      <div class="hero-float-card hfc-5">
+        <img src="https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=400&q=80" alt="Premium bridal jewellery set" loading="lazy">
+      </div>
+    </div>
     <div class="hero-particles" id="particles"></div>
     <div class="hero-content">
       <p class="hero-subtitle">Est. 2005 &nbsp;|&nbsp; Handcrafted Excellence</p>
@@ -496,7 +594,7 @@ nav{padding:.8rem 1.2rem}
 
   <!-- MARQUEE -->
   <div class="marquee-section">
-    <div class="marquee-track" id="marquee">
+    <div class="marquee-track">
       <span class="marquee-item">Gold Jewellery <span class="marquee-dot">&#9670;</span></span>
       <span class="marquee-item">Diamond Collections <span class="marquee-dot">&#9670;</span></span>
       <span class="marquee-item">Bridal Sets <span class="marquee-dot">&#9670;</span></span>
@@ -517,7 +615,7 @@ nav{padding:.8rem 1.2rem}
   </div>
 
   <!-- FEATURED CATEGORIES -->
-  <section class="section" style="background:var(--dark)">
+  <section class="section" style="background:var(--dark)" id="section-categories">
     <div class="section-inner">
       <div class="section-header reveal">
         <span class="section-tag">Browse By Category</span>
@@ -537,7 +635,7 @@ nav{padding:.8rem 1.2rem}
   </div>
 
   <!-- NEW ARRIVALS -->
-  <section class="section">
+  <section class="section" id="section-shop">
     <div class="section-inner">
       <div class="section-header reveal">
         <span class="section-tag">Fresh Designs</span>
@@ -621,7 +719,7 @@ nav{padding:.8rem 1.2rem}
     </div>
   </section>
 
-</div><!-- END HOME PAGE -->
+</div>
 
 <!-- ======================== SHOP PAGE ======================== -->
 <div class="page" id="page-shop">
@@ -633,51 +731,61 @@ nav{padding:.8rem 1.2rem}
   </div>
   <div class="shop-layout">
     <div class="shop-filters">
-      <div class="filter-title">Filter Products</div>
+      <div class="filter-title">
+        Filter Products
+        <button class="filter-reset" onclick="resetFilters()">Reset All</button>
+      </div>
       <div class="filter-group">
         <h4>Category</h4>
-        <label class="filter-check"><input type="checkbox" checked> <label>Rings</label></label>
-        <label class="filter-check"><input type="checkbox" checked> <label>Necklaces</label></label>
-        <label class="filter-check"><input type="checkbox" checked> <label>Earrings</label></label>
-        <label class="filter-check"><input type="checkbox"> <label>Mangalsutra</label></label>
-        <label class="filter-check"><input type="checkbox"> <label>Bracelets</label></label>
-        <label class="filter-check"><input type="checkbox"> <label>Bangles</label></label>
-        <label class="filter-check"><input type="checkbox"> <label>Chains</label></label>
+        <label class="filter-check"><input type="checkbox" class="shop-filter" data-filter="cat" data-val="rings"> <label>Rings</label></label>
+        <label class="filter-check"><input type="checkbox" class="shop-filter" data-filter="cat" data-val="necklace"> <label>Necklaces</label></label>
+        <label class="filter-check"><input type="checkbox" class="shop-filter" data-filter="cat" data-val="earring"> <label>Earrings</label></label>
+        <label class="filter-check"><input type="checkbox" class="shop-filter" data-filter="cat" data-val="mangalsutra"> <label>Mangalsutra</label></label>
+        <label class="filter-check"><input type="checkbox" class="shop-filter" data-filter="cat" data-val="bracelet"> <label>Bracelets</label></label>
+        <label class="filter-check"><input type="checkbox" class="shop-filter" data-filter="cat" data-val="bangle"> <label>Bangles</label></label>
+        <label class="filter-check"><input type="checkbox" class="shop-filter" data-filter="cat" data-val="chain"> <label>Chains</label></label>
+        <label class="filter-check"><input type="checkbox" class="shop-filter" data-filter="cat" data-val="pendant"> <label>Pendant Sets</label></label>
       </div>
       <div class="filter-group">
         <h4>Material</h4>
-        <label class="filter-check"><input type="checkbox" checked> <label>Gold (22K)</label></label>
-        <label class="filter-check"><input type="checkbox" checked> <label>Diamond</label></label>
-        <label class="filter-check"><input type="checkbox"> <label>Silver</label></label>
-        <label class="filter-check"><input type="checkbox"> <label>Platinum</label></label>
+        <label class="filter-check"><input type="checkbox" class="shop-filter" data-filter="mat" data-val="gold"> <label>Gold (22K)</label></label>
+        <label class="filter-check"><input type="checkbox" class="shop-filter" data-filter="mat" data-val="diamond"> <label>Diamond</label></label>
+        <label class="filter-check"><input type="checkbox" class="shop-filter" data-filter="mat" data-val="silver"> <label>Silver</label></label>
+        <label class="filter-check"><input type="checkbox" class="shop-filter" data-filter="mat" data-val="platinum"> <label>Platinum</label></label>
+      </div>
+      <div class="filter-group">
+        <h4>Occasion</h4>
+        <label class="filter-check"><input type="checkbox" class="shop-filter" data-filter="occ" data-val="bridal"> <label>Bridal</label></label>
+        <label class="filter-check"><input type="checkbox" class="shop-filter" data-filter="occ" data-val="daily"> <label>Daily Wear</label></label>
+        <label class="filter-check"><input type="checkbox" class="shop-filter" data-filter="occ" data-val="festival"> <label>Festival</label></label>
+        <label class="filter-check"><input type="checkbox" class="shop-filter" data-filter="occ" data-val="wedding"> <label>Wedding</label></label>
+        <label class="filter-check"><input type="checkbox" class="shop-filter" data-filter="occ" data-val="gifting"> <label>Gifting</label></label>
+      </div>
+      <div class="filter-group">
+        <h4>Collection</h4>
+        <label class="filter-check"><input type="checkbox" class="shop-filter" data-filter="col" data-val="new"> <label>New Arrivals</label></label>
+        <label class="filter-check"><input type="checkbox" class="shop-filter" data-filter="col" data-val="bestseller"> <label>Best Sellers</label></label>
+        <label class="filter-check"><input type="checkbox" class="shop-filter" data-filter="col" data-val="trending"> <label>Trending</label></label>
       </div>
       <div class="filter-group">
         <h4>Price Range</h4>
         <div class="price-range">
-          <input class="price-input" type="number" placeholder="Min" value="5000">
+          <input class="price-input" type="number" id="priceMin" placeholder="Min" value="0">
           <span style="color:var(--gold)">-</span>
-          <input class="price-input" type="number" placeholder="Max" value="500000">
+          <input class="price-input" type="number" id="priceMax" placeholder="Max" value="500000">
         </div>
       </div>
-      <div class="filter-group">
-        <h4>Occasion</h4>
-        <label class="filter-check"><input type="checkbox"> <label>Bridal</label></label>
-        <label class="filter-check"><input type="checkbox"> <label>Daily Wear</label></label>
-        <label class="filter-check"><input type="checkbox"> <label>Festival</label></label>
-        <label class="filter-check"><input type="checkbox"> <label>Office Wear</label></label>
-        <label class="filter-check"><input type="checkbox"> <label>Gifting</label></label>
-      </div>
-      <button class="filter-apply" onclick="showToast('Filters applied!')">Apply Filters</button>
+      <button class="filter-apply" onclick="applyShopFilters()">Apply Filters</button>
     </div>
     <div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;flex-wrap:gap">
-        <p style="font-size:.8rem;color:var(--gray)">Showing <span style="color:var(--gold)">48</span> products</p>
-        <select style="background:var(--dark2);border:1px solid rgba(201,168,76,.2);color:var(--white);padding:.5rem 1rem;font-size:.78rem;outline:none">
-          <option>Sort: Featured</option>
-          <option>Price: Low to High</option>
-          <option>Price: High to Low</option>
-          <option>New Arrivals</option>
-          <option>Best Sellers</option>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;flex-wrap:wrap;gap:1rem">
+        <p style="font-size:.8rem;color:var(--gray)">Showing <span id="shopCount" style="color:var(--gold)">0</span> products</p>
+        <select id="shopSort" style="background:var(--dark2);border:1px solid rgba(201,168,76,.2);color:var(--white);padding:.5rem 1rem;font-size:.78rem;outline:none" onchange="applyShopFilters()">
+          <option value="featured">Sort: Featured</option>
+          <option value="priceasc">Price: Low to High</option>
+          <option value="pricedesc">Price: High to Low</option>
+          <option value="new">New Arrivals</option>
+          <option value="bestseller">Best Sellers</option>
         </select>
       </div>
       <div class="products-grid" id="shopGrid"></div>
@@ -748,19 +856,19 @@ nav{padding:.8rem 1.2rem}
   <section class="section">
     <div class="section-inner">
       <div class="about-grid reveal">
-        <div class="about-img-wrap">
-          <div style="aspect-ratio:4/5;background:linear-gradient(135deg,#1a1200,#2a2000);border-radius:4px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(201,168,76,.15)">
-            <div style="text-align:center;padding:3rem">
-              <div style="width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,#c9a84c,#e8c97a);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem">
-                <span style="font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:700;color:#0a0a0a">S</span>
-              </div>
-              <p style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--gold2)">Crafting Dreams</p>
-              <p style="font-size:.75rem;color:rgba(255,255,255,.4);margin-top:.5rem;letter-spacing:.1em">Since 2005</p>
-            </div>
+        <div class="about-img-grid">
+          <div class="about-img-main">
+            <img src="https://images.unsplash.com/photo-1610296669228-602fa827fc1f?w=900&q=80" alt="Shubhi Jewellers showroom interior" loading="lazy">
           </div>
-          <div class="about-badge">
-            <span class="about-badge-num">20+</span>
-            <span class="about-badge-text">Years of Trust</span>
+          <div class="about-img-small">
+            <img src="https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=500&q=80" alt="Jewellery craftsmanship at Shubhi Jewellers" loading="lazy">
+          </div>
+          <div class="about-img-small" style="position:relative">
+            <img src="https://images.unsplash.com/photo-1573408301185-9519f94798b5?w=500&q=80" alt="Gold jewellery making process" loading="lazy">
+            <div class="about-badge" style="position:absolute;bottom:.8rem;right:.8rem">
+              <span class="about-badge-num">20+</span>
+              <span class="about-badge-text">Years of Trust</span>
+            </div>
           </div>
         </div>
         <div class="about-content">
@@ -780,8 +888,25 @@ nav{padding:.8rem 1.2rem}
     </div>
   </section>
 
+  <!-- Craftsmanship Images Row -->
+  <section class="section" style="background:var(--dark);padding-top:0">
+    <div class="section-inner">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem" class="reveal">
+        <div style="border-radius:4px;overflow:hidden;aspect-ratio:4/3">
+          <img src="https://images.unsplash.com/photo-1601121141418-f5c0b9f96ee2?w=600&q=80" alt="Jewellery making craftsmanship process" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform .6s;display:block" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'">
+        </div>
+        <div style="border-radius:4px;overflow:hidden;aspect-ratio:4/3">
+          <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=80" alt="Premium gold jewellery collection" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform .6s;display:block" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'">
+        </div>
+        <div style="border-radius:4px;overflow:hidden;aspect-ratio:4/3">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Shubhi Jewellers store display" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform .6s;display:block" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'">
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- TIMELINE -->
-  <section class="section" style="background:var(--dark)">
+  <section class="section">
     <div class="section-inner">
       <div class="section-header reveal">
         <span class="section-tag">Our Journey</span>
@@ -893,13 +1018,12 @@ nav{padding:.8rem 1.2rem}
           <button class="btn-primary" style="width:100%;padding:1rem;clip-path:none" onclick="submitForm()">Send Message</button>
         </div>
       </div>
-      <!-- MAP PLACEHOLDER -->
       <div style="margin-top:4rem;border:1px solid rgba(201,168,76,.15);border-radius:4px;overflow:hidden;height:350px;background:linear-gradient(135deg,var(--dark2),#1a1200);display:flex;align-items:center;justify-content:center" class="reveal">
         <div style="text-align:center">
           <div style="font-size:3rem;margin-bottom:1rem">&#128205;</div>
           <p style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--gold2)">Shubhi Jewellers</p>
           <p style="font-size:.8rem;color:rgba(255,255,255,.5);margin-top:.5rem">Shop No. 15, Main Market, Civil Lines, Aligarh, UP</p>
-          <a href="https://maps.google.com" target="_blank" class="btn-outline" style="display:inline-block;margin-top:1.5rem;text-decoration:none;padding:.8rem 2rem;font-size:.7rem;letter-spacing:.2em">Open in Google Maps</a>
+          <a href="https://maps.app.goo.gl/Pe69hFCwSyBb4fCM6" target="_blank" class="btn-outline" style="display:inline-block;margin-top:1.5rem;text-decoration:none;padding:.8rem 2rem;font-size:.7rem;letter-spacing:.2em">Open in Google Maps</a>
         </div>
       </div>
     </div>
@@ -1027,11 +1151,15 @@ nav{padding:.8rem 1.2rem}
           </div>
           <button class="btn-primary" style="margin-top:2rem" onclick="showPage('contact')">Start Your Custom Order</button>
         </div>
-        <div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
-            <div style="grid-column:span 2;aspect-ratio:16/9;background:linear-gradient(135deg,#1a1200,#2a2000);border-radius:4px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(201,168,76,.15)"><p style="font-family:'Cormorant Garamond',serif;color:var(--gold2);font-size:1.5rem;text-align:center">Bespoke Gold Necklace<br><span style="font-size:.8rem;color:var(--gray)">Custom Creation</span></p></div>
-            <div style="aspect-ratio:1;background:linear-gradient(135deg,#1a1200,#2a2000);border-radius:4px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(201,168,76,.15)"><p style="font-family:'Cormorant Garamond',serif;color:var(--gold2);font-size:1rem;text-align:center;padding:1rem">Diamond Ring<br><span style="font-size:.7rem;color:var(--gray)">Bespoke</span></p></div>
-            <div style="aspect-ratio:1;background:linear-gradient(135deg,#1a1200,#2a2000);border-radius:4px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(201,168,76,.15)"><p style="font-family:'Cormorant Garamond',serif;color:var(--gold2);font-size:1rem;text-align:center;padding:1rem">Bridal Set<br><span style="font-size:.7rem;color:var(--gray)">Custom Design</span></p></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div style="grid-column:span 2;border-radius:4px;overflow:hidden;aspect-ratio:16/9">
+            <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=800&q=80" alt="Custom bespoke gold necklace design" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="border-radius:4px;overflow:hidden;aspect-ratio:1">
+            <img src="https://images.unsplash.com/photo-1573408301185-9519f94798b5?w=500&q=80" alt="Custom diamond ring bespoke design" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <div style="border-radius:4px;overflow:hidden;aspect-ratio:1">
+            <img src="https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=500&q=80" alt="Custom bridal jewellery set design" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'">
           </div>
         </div>
       </div>
@@ -1041,7 +1169,7 @@ nav{padding:.8rem 1.2rem}
 
 <!-- ======================== PRODUCT DETAIL PAGE ======================== -->
 <div class="page" id="page-product">
-  <button class="back-btn" onclick="history.back(); showPage(lastPage)">&#8592; Back</button>
+  <button class="back-btn" onclick="showPage(window.lastPage||'shop')">&#8592; Back</button>
   <div class="product-detail" id="productDetailContent"></div>
   <section class="section" style="background:var(--dark)">
     <div class="section-inner">
@@ -1135,35 +1263,92 @@ nav{padding:.8rem 1.2rem}
 </footer>
 
 <script>
-// ====== DATA ======
-const categories = [
-  {name:'Rings',count:'120+ Designs',color:'#c9a84c'},
-  {name:'Necklaces',count:'85+ Designs',color:'#e8c97a'},
-  {name:'Earrings',count:'200+ Designs',color:'#c9a84c'},
-  {name:'Mangalsutra',count:'60+ Designs',color:'#e8c97a'},
-  {name:'Bracelets',count:'75+ Designs',color:'#c9a84c'},
-  {name:'Bangles',count:'150+ Designs',color:'#e8c97a'},
-  {name:'Chains',count:'90+ Designs',color:'#c9a84c'},
-  {name:'Pendant Sets',count:'110+ Designs',color:'#e8c97a'},
-  {name:'Bridal Jewellery',count:'45+ Sets',color:'#c9a84c'},
-  {name:'Temple Jewellery',count:'55+ Designs',color:'#e8c97a'},
-  {name:"Men's Jewellery",count:'40+ Designs',color:'#c9a84c'},
-  {name:"Kids Jewellery",count:'65+ Designs',color:'#e8c97a'}
+// ====== IMAGE BANKS ======
+const catImages = [
+  'https://images.unsplash.com/photo-1573408301185-9519f94798b5?w=500&q=70',
+  'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=500&q=70',
+  'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=500&q=70',
+  'https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=500&q=70',
+  'https://images.unsplash.com/photo-1575026730341-e4f86f8c9b83?w=500&q=70',
+  'https://images.unsplash.com/photo-1596944924616-7b38e7cfac36?w=500&q=70',
+  'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=500&q=70',
+  'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=500&q=70',
+  'https://images.unsplash.com/photo-1610296669228-602fa827fc1f?w=500&q=70',
+  'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=70',
+  'https://images.unsplash.com/photo-1601121141418-f5c0b9f96ee2?w=500&q=70',
+  'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=500&q=70'
+];
+const prodImages = [
+  'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&q=70',
+  'https://images.unsplash.com/photo-1573408301185-9519f94798b5?w=600&q=70',
+  'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=600&q=70',
+  'https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=600&q=70',
+  'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=600&q=70',
+  'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=70',
+  'https://images.unsplash.com/photo-1596944924616-7b38e7cfac36?w=600&q=70',
+  'https://images.unsplash.com/photo-1575026730341-e4f86f8c9b83?w=600&q=70',
+  'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=600&q=70',
+  'https://images.unsplash.com/photo-1610296669228-602fa827fc1f?w=600&q=70',
+  'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=70',
+  'https://images.unsplash.com/photo-1601121141418-f5c0b9f96ee2?w=600&q=70'
+];
+const blogImages = [
+  'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=700&q=70',
+  'https://images.unsplash.com/photo-1573408301185-9519f94798b5?w=700&q=70',
+  'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=700&q=70',
+  'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=700&q=70',
+  'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=700&q=70',
+  'https://images.unsplash.com/photo-1610296669228-602fa827fc1f?w=700&q=70'
+];
+const collectionImages = [
+  'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=900&q=70',
+  'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=700&q=70',
+  'https://images.unsplash.com/photo-1573408301185-9519f94798b5?w=700&q=70',
+  'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=700&q=70',
+  'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=700&q=70',
+  'https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=700&q=70'
+];
+const careImages = [
+  'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=700&q=70',
+  'https://images.unsplash.com/photo-1573408301185-9519f94798b5?w=700&q=70',
+  'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=700&q=70',
+  'https://images.unsplash.com/photo-1610296669228-602fa827fc1f?w=700&q=70',
+  'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=70',
+  'https://images.unsplash.com/photo-1601121141418-f5c0b9f96ee2?w=700&q=70'
+];
+const avatarImages = [
+  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&q=70',
+  'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=150&q=70',
+  'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=150&q=70',
+  'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&q=70',
+  'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&q=70',
+  'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&q=70'
 ];
 
+// ====== DATA ======
+const categories = [
+  {name:'Rings',count:'120+ Designs'},{name:'Necklaces',count:'85+ Designs'},
+  {name:'Earrings',count:'200+ Designs'},{name:'Mangalsutra',count:'60+ Designs'},
+  {name:'Bracelets',count:'75+ Designs'},{name:'Bangles',count:'150+ Designs'},
+  {name:'Chains',count:'90+ Designs'},{name:'Pendant Sets',count:'110+ Designs'},
+  {name:'Bridal Jewellery',count:'45+ Sets'},{name:'Temple Jewellery',count:'55+ Designs'},
+  {name:"Men's Jewellery",count:'40+ Designs'},{name:"Kids Jewellery",count:'65+ Designs'}
+];
+
+// price as number for filtering
 const products = [
-  {id:1,name:'Royal Kundan Necklace Set',material:'22K Gold',price:'₹1,85,000',oldPrice:'₹2,10,000',rating:5,reviews:124,badge:'New',tag:'gold bridal',desc:'A magnificent Kundan necklace set crafted in 22K gold with precious stone inlays. Perfect for weddings and grand celebrations.'},
-  {id:2,name:'Solitaire Diamond Ring',material:'18K Gold + Diamond',price:'₹95,000',oldPrice:'₹1,10,000',rating:5,reviews:89,badge:'Bestseller',tag:'diamond daily',desc:'A classic solitaire diamond ring set in 18K gold. Timeless elegance for the modern woman.'},
-  {id:3,name:'Peacock Jhumka Earrings',material:'22K Gold',price:'₹45,000',oldPrice:'₹52,000',rating:4,reviews:67,badge:'',tag:'gold daily',desc:'Intricately designed peacock-motif jhumkas in 22K gold, celebrating the beauty of Indian craftsmanship.'},
-  {id:4,name:'Floral Diamond Bracelet',material:'18K Gold + Diamond',price:'₹1,25,000',oldPrice:'₹1,40,000',rating:5,reviews:45,badge:'New',tag:'diamond bridal',desc:'A delicate floral diamond bracelet set in 18K white gold, perfect for every occasion.'},
-  {id:5,name:'Bridal Choker Set',material:'22K Gold',price:'₹3,50,000',oldPrice:'₹3,80,000',rating:5,reviews:38,badge:'Bridal',tag:'gold bridal',desc:'An opulent bridal choker set with matching earrings and maang tikka, crafted for the modern bride.'},
-  {id:6,name:'Everyday Gold Chain',material:'22K Gold',price:'₹28,000',oldPrice:'₹32,000',rating:4,reviews:156,badge:'Popular',tag:'gold daily',desc:'A sleek and elegant everyday gold chain in 22K gold. Light, comfortable, and perfect for daily wear.'},
-  {id:7,name:'Diamond Mangalsutra',material:'18K Gold + Diamond',price:'₹75,000',oldPrice:'₹88,000',rating:5,reviews:92,badge:'New',tag:'diamond daily',desc:'A contemporary diamond mangalsutra with a modern design that can be worn as a stylish necklace.'},
-  {id:8,name:'Temple Gold Bangles (Set of 4)',material:'22K Gold',price:'₹1,10,000',oldPrice:'₹1,25,000',rating:4,reviews:73,badge:'',tag:'gold bridal',desc:'Exquisite temple-design gold bangles with intricate deity motifs, crafted in 22K gold.'},
-  {id:9,name:'Silver Oxidised Earrings',material:'925 Silver',price:'₹3,500',oldPrice:'₹4,200',rating:4,reviews:210,badge:'Popular',tag:'silver daily',desc:'Handcrafted oxidised silver earrings with traditional tribal motifs. Perfect for festival wear.'},
-  {id:10,name:'Gold Kamarband',material:'22K Gold',price:'₹2,20,000',oldPrice:'₹2,50,000',rating:5,reviews:29,badge:'Bridal',tag:'gold bridal',desc:'A stunning bridal waistbelt (kamarband) in 22K gold with kundan work.'},
-  {id:11,name:'Infinity Diamond Pendant',material:'18K Gold + Diamond',price:'₹42,000',oldPrice:'₹48,000',rating:4,reviews:88,badge:'New',tag:'diamond daily',desc:'A graceful infinity-shaped diamond pendant in 18K rose gold.'},
-  {id:12,name:'Gold Baali Earrings',material:'22K Gold',price:'₹18,000',oldPrice:'₹22,000',rating:4,reviews:134,badge:'',tag:'gold daily',desc:'Classic gold baali earrings with a traditional twist, perfect for daily wear.'}
+  {id:1,name:'Royal Kundan Necklace Set',material:'22K Gold',price:'₹1,85,000',priceNum:185000,oldPrice:'₹2,10,000',rating:5,reviews:124,badge:'New',tags:['gold','bridal','wedding','necklace'],col:['new'],desc:'A magnificent Kundan necklace set crafted in 22K gold with precious stone inlays. Perfect for weddings and grand celebrations.'},
+  {id:2,name:'Solitaire Diamond Ring',material:'18K Gold + Diamond',price:'₹95,000',priceNum:95000,oldPrice:'₹1,10,000',rating:5,reviews:89,badge:'Bestseller',tags:['diamond','daily','rings'],col:['bestseller','trending'],desc:'A classic solitaire diamond ring set in 18K gold. Timeless elegance for the modern woman.'},
+  {id:3,name:'Peacock Jhumka Earrings',material:'22K Gold',price:'₹45,000',priceNum:45000,oldPrice:'₹52,000',rating:4,reviews:67,badge:'',tags:['gold','daily','festival','earring'],col:['trending'],desc:'Intricately designed peacock-motif jhumkas in 22K gold, celebrating the beauty of Indian craftsmanship.'},
+  {id:4,name:'Floral Diamond Bracelet',material:'18K Gold + Diamond',price:'₹1,25,000',priceNum:125000,oldPrice:'₹1,40,000',rating:5,reviews:45,badge:'New',tags:['diamond','bridal','wedding','bracelet'],col:['new'],desc:'A delicate floral diamond bracelet set in 18K white gold, perfect for every occasion.'},
+  {id:5,name:'Bridal Choker Set',material:'22K Gold',price:'₹3,50,000',priceNum:350000,oldPrice:'₹3,80,000',rating:5,reviews:38,badge:'Bridal',tags:['gold','bridal','wedding','necklace'],col:['bestseller'],desc:'An opulent bridal choker set with matching earrings and maang tikka, crafted for the modern bride.'},
+  {id:6,name:'Everyday Gold Chain',material:'22K Gold',price:'₹28,000',priceNum:28000,oldPrice:'₹32,000',rating:4,reviews:156,badge:'Popular',tags:['gold','daily','chain'],col:['bestseller','trending'],desc:'A sleek and elegant everyday gold chain in 22K gold. Light, comfortable, and perfect for daily wear.'},
+  {id:7,name:'Diamond Mangalsutra',material:'18K Gold + Diamond',price:'₹75,000',priceNum:75000,oldPrice:'₹88,000',rating:5,reviews:92,badge:'New',tags:['diamond','daily','mangalsutra'],col:['new'],desc:'A contemporary diamond mangalsutra with a modern design that can be worn as a stylish necklace.'},
+  {id:8,name:'Temple Gold Bangles (Set of 4)',material:'22K Gold',price:'₹1,10,000',priceNum:110000,oldPrice:'₹1,25,000',rating:4,reviews:73,badge:'',tags:['gold','bridal','festival','bangle'],col:['trending'],desc:'Exquisite temple-design gold bangles with intricate deity motifs, crafted in 22K gold.'},
+  {id:9,name:'Silver Oxidised Earrings',material:'925 Silver',price:'₹3,500',priceNum:3500,oldPrice:'₹4,200',rating:4,reviews:210,badge:'Popular',tags:['silver','daily','festival','earring'],col:['bestseller'],desc:'Handcrafted oxidised silver earrings with traditional tribal motifs. Perfect for festival wear.'},
+  {id:10,name:'Gold Kamarband',material:'22K Gold',price:'₹2,20,000',priceNum:220000,oldPrice:'₹2,50,000',rating:5,reviews:29,badge:'Bridal',tags:['gold','bridal','wedding'],col:['new'],desc:'A stunning bridal waistbelt (kamarband) in 22K gold with kundan work.'},
+  {id:11,name:'Infinity Diamond Pendant',material:'18K Gold + Diamond',price:'₹42,000',priceNum:42000,oldPrice:'₹48,000',rating:4,reviews:88,badge:'New',tags:['diamond','daily','pendant'],col:['new','trending'],desc:'A graceful infinity-shaped diamond pendant in 18K rose gold.'},
+  {id:12,name:'Gold Baali Earrings',material:'22K Gold',price:'₹18,000',priceNum:18000,oldPrice:'₹22,000',rating:4,reviews:134,badge:'',tags:['gold','daily','earring'],col:['bestseller'],desc:'Classic gold baali earrings with a traditional twist, perfect for daily wear.'}
 ];
 
 const features = [
@@ -1176,7 +1361,7 @@ const features = [
 ];
 
 const testimonials = [
-  {name:'Priya Sharma',location:'Aligarh, UP',rating:'&#9733;&#9733;&#9733;&#9733;&#9733;',text:'I purchased my entire bridal jewellery set from Shubhi Jewellers and could not be happier. The craftsmanship is extraordinary, the staff was incredibly patient and helpful. The necklace set was exactly as we had envisioned.',initial:'P'},
+  {name:'Priya Sharma',location:'Aligarh, UP',rating:'&#9733;&#9733;&#9733;&#9733;&#9733;',text:'I purchased my entire bridal jewellery set from Shubhi Jewellers and could not be happier. The craftsmanship is extraordinary, the staff was incredibly patient and helpful.',initial:'P'},
   {name:'Anita Verma',location:'Mathura, UP',rating:'&#9733;&#9733;&#9733;&#9733;&#9733;',text:'The diamond ring I bought for my anniversary is breathtaking. The quality is top-notch and the pricing is very fair. Shubhi Jewellers truly delivers on their promise of excellence.',initial:'A'},
   {name:'Sunita Agarwal',location:'Agra, UP',rating:'&#9733;&#9733;&#9733;&#9733;&#9733;',text:'I have been a loyal customer for over 8 years. Their gold jewellery is always pure, hallmarked, and the designs are unique. I recommend Shubhi Jewellers to all my family and friends.',initial:'S'},
   {name:'Meera Gupta',location:'Aligarh, UP',rating:'&#9733;&#9733;&#9733;&#9733;&#9733;',text:'Their custom jewellery service is outstanding. I wanted a specific design for my daughter\'s engagement ring and they created something more beautiful than I had imagined.',initial:'M'},
@@ -1189,10 +1374,10 @@ const faqs = [
   {q:'Do you offer custom jewellery design services?',a:'Yes, we offer complete bespoke jewellery design services. You can share your design ideas, sketches, or reference images with our team. Our master craftsmen will create 3D renderings for your approval before crafting your unique piece.'},
   {q:'What is your exchange and buyback policy?',a:'We offer a transparent exchange policy where you can exchange your old gold jewellery against new purchases. The exchange value is calculated based on current gold rates and the purity of your jewellery. We also offer buyback at prevailing market rates.'},
   {q:'How do I know the weight of gold in my jewellery?',a:'Every piece of jewellery comes with a detailed invoice mentioning the exact gold weight, making charges, stone weight (if applicable), and total value. We encourage you to always ask for and retain this invoice.'},
-  {q:'Do you offer jewellery on lease or installment?',a:'Yes, we offer flexible EMI options through leading banks for purchases above a certain value. We also have our own easy installment scheme for our regular customers. Please visit our store or contact us for current EMI options.'},
-  {q:'How do I maintain and clean my jewellery at home?',a:'For gold jewellery, you can gently clean it with warm water, mild soap, and a soft toothbrush. Pat dry with a clean cloth. Avoid chemical cleaners, perfumes, and chlorinated water. For diamonds, use a soft cloth to wipe after wearing. Visit our Jewellery Care page for detailed tips.'},
+  {q:'Do you offer jewellery on installment?',a:'Yes, we offer flexible EMI options through leading banks for purchases above a certain value. We also have our own easy installment scheme for our regular customers. Please visit our store or contact us for current EMI options.'},
+  {q:'How do I maintain and clean my jewellery at home?',a:'For gold jewellery, you can gently clean it with warm water, mild soap, and a soft toothbrush. Pat dry with a clean cloth. Avoid chemical cleaners, perfumes, and chlorinated water. Visit our Jewellery Care page for detailed tips.'},
   {q:'Do you provide certificates for diamond jewellery?',a:'Yes, all our diamond jewellery pieces are accompanied by proper certification from reputable gemological laboratories. This certifies the cut, carat, colour, and clarity of your diamonds.'},
-  {q:'What are your store timings and location?',a:'We are located at Shop No. 15, Main Market, Civil Lines, Aligarh, UP. Our store is open Monday to Saturday from 10:00 AM to 9:00 PM, and on Sundays from 11:00 AM to 8:00 PM. We remain open on all major festivals with special hours.'}
+  {q:'What are your store timings and location?',a:'We are located at Shop No. 15, Main Market, Civil Lines, Aligarh, UP. Our store is open Monday to Saturday from 10:00 AM to 9:00 PM, and on Sundays from 11:00 AM to 8:00 PM.'}
 ];
 
 const blogs = [
@@ -1204,42 +1389,56 @@ const blogs = [
   {tag:'Investment',title:'Is Jewellery a Smart Investment? What Experts Say',excerpt:'A look at gold and diamond jewellery as a financial asset — comparing returns, liquidity, and emotional value for informed decisions.',date:'December 20, 2024',read:'9 min read'}
 ];
 
+// offer SVG icons (gold-themed)
+const offerSVGs = [
+  // bridal/diamond
+  `<svg class="offer-icon-svg" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>`,
+  // sparkle/star
+  `<svg class="offer-icon-svg" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+  // refresh/exchange
+  `<svg class="offer-icon-svg" viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"/><path d="M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>`,
+  // gift
+  `<svg class="offer-icon-svg" viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>`,
+  // percent/discount
+  `<svg class="offer-icon-svg" viewBox="0 0 24 24"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>`,
+  // ring/circle gem
+  `<svg class="offer-icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg>`
+];
+
 const offers = [
-  {icon:'&#128142;',title:'Bridal Season Special',discount:'15% OFF',desc:'Get 15% off on all bridal jewellery sets this wedding season. Valid on purchases above ₹2,00,000.',code:'BRIDE15',validity:'Valid till: June 30, 2025'},
-  {icon:'&#9889;',title:'Diamond Delight',discount:'10% OFF',desc:'Flat 10% discount on all diamond jewellery pieces. Applicable on all certified diamond products.',code:'DIAMOND10',validity:'Valid till: May 31, 2025'},
-  {icon:'&#127775;',title:'Gold Exchange Bonus',discount:'+5% EXTRA',desc:'Get 5% extra value over current market rate when you exchange your old gold jewellery.',code:'EXCHANGE5',validity:'Valid till: July 15, 2025'},
-  {icon:'&#127873;',title:'First Purchase Offer',discount:'5% OFF',desc:'Welcome offer for first-time customers. Get 5% off on your first purchase above ₹50,000.',code:'WELCOME5',validity:'Valid till: December 31, 2025'},
-  {icon:'&#128140;',title:'Festival Season Sale',discount:'Making Charges WAIVED',desc:'Zero making charges on selected gold jewellery designs during festival season.',code:'FESTIVAL',validity:'Valid during festival days'},
-  {icon:'&#128302;',title:'Silver Collection',discount:'20% OFF',desc:'Flat 20% off on entire silver jewellery collection. Great deals on oxidised and contemporary silver pieces.',code:'SILVER20',validity:'Valid till: June 15, 2025'}
+  {svg:offerSVGs[0],title:'Bridal Season Special',discount:'15% OFF',desc:'Get 15% off on all bridal jewellery sets this wedding season. Valid on purchases above ₹2,00,000.',code:'BRIDE15',validity:'Valid till: June 30, 2025'},
+  {svg:offerSVGs[1],title:'Diamond Delight',discount:'10% OFF',desc:'Flat 10% discount on all diamond jewellery pieces. Applicable on all certified diamond products.',code:'DIAMOND10',validity:'Valid till: May 31, 2025'},
+  {svg:offerSVGs[2],title:'Gold Exchange Bonus',discount:'+5% EXTRA',desc:'Get 5% extra value over current market rate when you exchange your old gold jewellery.',code:'EXCHANGE5',validity:'Valid till: July 15, 2025'},
+  {svg:offerSVGs[3],title:'First Purchase Offer',discount:'5% OFF',desc:'Welcome offer for first-time customers. Get 5% off on your first purchase above ₹50,000.',code:'WELCOME5',validity:'Valid till: December 31, 2025'},
+  {svg:offerSVGs[4],title:'Festival Season Sale',discount:'Making Charges Waived',desc:'Zero making charges on selected gold jewellery designs during festival season.',code:'FESTIVAL',validity:'Valid during festival days'},
+  {svg:offerSVGs[5],title:'Silver Collection',discount:'20% OFF',desc:'Flat 20% off on entire silver jewellery collection. Great deals on oxidised and contemporary silver pieces.',code:'SILVER20',validity:'Valid till: June 15, 2025'}
 ];
 
 const careGuide = [
-  {icon:'&#128142;',title:'Gold Jewellery Care',tips:['Store separately in soft cloth pouches to prevent scratching','Avoid contact with perfumes, hairspray, and chemical cleaners','Clean with warm water and mild soap using a soft brush','Remove before swimming, exercising, or household cleaning','Polish with a lint-free cloth to restore shine']},
-  {icon:'&#128176;',title:'Diamond Jewellery Care',tips:['Wipe diamonds with a soft, lint-free cloth after every use','Soak in warm water with mild dish soap for deep cleaning','Use a soft toothbrush to clean under diamond settings','Avoid touching the diamond surface with bare fingers','Get a professional ultrasonic cleaning annually']},
-  {icon:'&#128368;',title:'Silver Jewellery Care',tips:['Store in anti-tarnish bags or with silica gel packets','Polish regularly with a silver cleaning cloth','Avoid rubber bands — they contain sulphur that tarnishes silver','Clean with toothpaste and a soft cloth for oxidised pieces','Keep away from moisture and humid environments']},
-  {icon:'&#128273;',title:'Storage Tips',tips:['Store each piece separately to avoid tangling and scratching','Use velvet-lined jewellery boxes for best protection','Keep jewellery away from direct sunlight and heat','Hang necklaces and chains to prevent kinking','Use a jewellery organiser with individual compartments']},
-  {icon:'&#128293;',title:'When to Remove Jewellery',tips:['Always remove jewellery before bathing or showering','Take off rings before applying hand cream or sanitiser','Remove jewellery during cooking and kitchen work','Avoid wearing jewellery in swimming pools or hot tubs','Take off chains and earrings before sleeping']},
-  {icon:'&#128172;',title:'Professional Maintenance',tips:['Get your jewellery professionally cleaned every 6 months','Have prong settings checked annually for loose diamonds','Bring in bridal jewellery for cleaning post-wedding','Request a free repolishing service at our store annually','Report any loose stones or broken clasps immediately']}
+  {img:careImages[0],title:'Gold Jewellery Care',tips:['Store separately in soft cloth pouches to prevent scratching','Avoid contact with perfumes, hairspray, and chemical cleaners','Clean with warm water and mild soap using a soft brush','Remove before swimming, exercising, or household cleaning','Polish with a lint-free cloth to restore shine']},
+  {img:careImages[1],title:'Diamond Jewellery Care',tips:['Wipe diamonds with a soft, lint-free cloth after every use','Soak in warm water with mild dish soap for deep cleaning','Use a soft toothbrush to clean under diamond settings','Avoid touching the diamond surface with bare fingers','Get a professional ultrasonic cleaning annually']},
+  {img:careImages[2],title:'Silver Jewellery Care',tips:['Store in anti-tarnish bags or with silica gel packets','Polish regularly with a silver cleaning cloth','Avoid rubber bands — they contain sulphur that tarnishes silver','Clean with toothpaste and a soft cloth for oxidised pieces','Keep away from moisture and humid environments']},
+  {img:careImages[3],title:'Storage Tips',tips:['Store each piece separately to avoid tangling and scratching','Use velvet-lined jewellery boxes for best protection','Keep jewellery away from direct sunlight and heat','Hang necklaces and chains to prevent kinking','Use a jewellery organiser with individual compartments']},
+  {img:careImages[4],title:'When to Remove Jewellery',tips:['Always remove jewellery before bathing or showering','Take off rings before applying hand cream or sanitiser','Remove jewellery during cooking and kitchen work','Avoid wearing jewellery in swimming pools or hot tubs','Take off chains and earrings before sleeping']},
+  {img:careImages[5],title:'Professional Maintenance',tips:['Get your jewellery professionally cleaned every 6 months','Have prong settings checked annually for loose diamonds','Bring in bridal jewellery for cleaning post-wedding','Request a free repolishing service at our store annually','Report any loose stones or broken clasps immediately']}
 ];
 
 const collections = [
-  {name:'Bridal Collection',sub:'Wedding & Reception Sets',size:'big'},
-  {name:'Gold Classics',sub:'Timeless Gold Jewellery',size:''},
-  {name:'Diamond Collection',sub:'Certified Diamonds',size:''},
-  {name:'Temple Jewellery',sub:'Traditional Elegance',size:''},
-  {name:'Daily Wear',sub:'Light & Elegant Pieces',size:''},
-  {name:'Festival Collection',sub:'Celebrate in Gold',size:''}
+  {name:'Bridal Collection',sub:'Wedding & Reception Sets',size:'big',img:collectionImages[0]},
+  {name:'Gold Classics',sub:'Timeless Gold Jewellery',size:'',img:collectionImages[1]},
+  {name:'Diamond Collection',sub:'Certified Diamonds',size:'',img:collectionImages[2]},
+  {name:'Temple Jewellery',sub:'Traditional Elegance',size:'',img:collectionImages[3]},
+  {name:'Daily Wear',sub:'Light & Elegant Pieces',size:'',img:collectionImages[4]},
+  {name:'Festival Collection',sub:'Celebrate in Gold',size:'',img:collectionImages[5]}
 ];
 
 // ====== RENDER FUNCTIONS ======
 function renderCategories(targetId) {
   const el = document.getElementById(targetId);
   if(!el) return;
-  el.innerHTML = categories.map(c=>`
+  el.innerHTML = categories.map((c,i)=>`
     <div class="cat-card" onclick="showPage('shop')">
-      <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1200,#2a2000,#0a0a0a);display:flex;align-items:center;justify-content:center">
-        <span style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:${c.color};opacity:.3">${c.name[0]}</span>
-      </div>
+      <div class="cat-card-bg" style="background-image:url('${catImages[i%catImages.length]}')"></div>
       <div class="cat-card-overlay">
         <div class="cat-card-name">${c.name}</div>
         <div class="cat-card-count">${c.count}</div>
@@ -1252,17 +1451,15 @@ function renderProducts(targetId, items, limit) {
   const el = document.getElementById(targetId);
   if(!el) return;
   const data = limit ? items.slice(0,limit) : items;
-  el.innerHTML = data.map(p=>`
-    <div class="product-card" onclick="showProduct(${p.id})">
+  if(data.length===0){
+    el.innerHTML='<div class="no-results">No products match your selection</div>';
+    return;
+  }
+  el.innerHTML = data.map((p,i)=>`
+    <div class="product-card fade-in" style="animation-delay:${i*0.06}s" onclick="showProduct(${p.id})">
       <div class="product-img-wrap">
-        <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1200,#2a2000);display:flex;align-items:center;justify-content:center;min-height:280px">
-          <div style="text-align:center;padding:1rem">
-            <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--gold2);line-height:1.4">${p.name}</div>
-            <div style="font-size:.65rem;color:var(--gray);margin-top:.5rem">${p.material}</div>
-          </div>
-        </div>
+        <img src="${prodImages[p.id%prodImages.length]}" alt="${p.name} - ${p.material} jewellery at Shubhi Jewellers" loading="lazy">
         ${p.badge?`<div class="product-badge">${p.badge}</div>`:''}
-        <div class="product-wishlist" onclick="event.stopPropagation();toggleWishlist(this)">&#9825;</div>
         <div class="product-quick" onclick="event.stopPropagation();showPage('contact')">Enquire Now</div>
       </div>
       <div class="product-info">
@@ -1298,12 +1495,14 @@ function renderTestimonials(targetId, limit) {
   const el = document.getElementById(targetId);
   if(!el) return;
   const data = limit ? testimonials.slice(0,limit) : testimonials;
-  el.innerHTML = data.map(t=>`
+  el.innerHTML = data.map((t,i)=>`
     <div class="testimonial-card">
       <div class="testimonial-stars">${t.rating}</div>
       <p class="testimonial-text">"${t.text}"</p>
       <div class="testimonial-author">
-        <div class="author-avatar">${t.initial}</div>
+        <div class="author-avatar">
+          <img src="${avatarImages[i%avatarImages.length]}" alt="${t.name} customer testimonial" loading="lazy">
+        </div>
         <div><div class="author-name">${t.name}</div><div class="author-location">${t.location}</div></div>
       </div>
     </div>`).join('');
@@ -1313,12 +1512,10 @@ function renderBlogs(targetId, limit) {
   const el = document.getElementById(targetId);
   if(!el) return;
   const data = limit ? blogs.slice(0,limit) : blogs;
-  el.innerHTML = data.map(b=>`
-    <div class="blog-card" onclick="showToast('Blog coming soon!')">
+  el.innerHTML = data.map((b,i)=>`
+    <div class="blog-card" onclick="showToast('Blog article coming soon!')">
       <div class="blog-img">
-        <div style="width:100%;height:200px;background:linear-gradient(135deg,#1a1200,#2a2000,#0a0a0a);display:flex;align-items:center;justify-content:center">
-          <span style="font-family:'Cormorant Garamond',serif;color:var(--gold2);font-size:1.2rem;padding:1.5rem;text-align:center">${b.title}</span>
-        </div>
+        <img src="${blogImages[i%blogImages.length]}" alt="${b.title} - Shubhi Jewellers blog" loading="lazy">
       </div>
       <div class="blog-content">
         <span class="blog-tag">${b.tag}</span>
@@ -1352,7 +1549,7 @@ function renderOffers() {
   if(!el) return;
   el.innerHTML = offers.map(o=>`
     <div class="offer-card">
-      <span class="offer-icon">${o.icon}</span>
+      <div class="offer-icon-wrap">${o.svg}</div>
       <div class="offer-title">${o.title}</div>
       <div class="offer-discount">${o.discount}</div>
       <p class="offer-desc">${o.desc}</p>
@@ -1367,20 +1564,24 @@ function renderCare() {
   if(!el) return;
   el.innerHTML = careGuide.map(c=>`
     <div class="care-card">
-      <div class="care-icon">${c.icon}</div>
-      <h3 class="care-title">${c.title}</h3>
-      <ul class="care-tips">
-        ${c.tips.map(t=>`<li>${t}</li>`).join('')}
-      </ul>
+      <div class="care-card-img">
+        <img src="${c.img}" alt="${c.title} tips and guide" loading="lazy">
+      </div>
+      <div class="care-card-body">
+        <h3 class="care-title">${c.title}</h3>
+        <ul class="care-tips">
+          ${c.tips.map(t=>`<li>${t}</li>`).join('')}
+        </ul>
+      </div>
     </div>`).join('');
 }
 
 function renderCollections() {
   const el = document.getElementById('collectionsShowcase');
   if(!el) return;
-  el.innerHTML = collections.map((c,i)=>`
-    <div class="showcase-card ${c.size==='big'?'collection-big':''}" onclick="showPage('shop')" style="min-height:${c.size==='big'?'400px':'200px'}">
-      <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1200,#2a2000,#0a0a0a);min-height:${c.size==='big'?'400px':'200px'}"></div>
+  el.innerHTML = collections.map(c=>`
+    <div class="showcase-card ${c.size==='big'?'collection-big':''}" onclick="showPage('shop')">
+      <img src="${c.img}" alt="${c.name} - ${c.sub}" loading="lazy">
       <div class="showcase-overlay">
         <div class="showcase-title">${c.name}</div>
         <div class="showcase-sub">${c.sub}</div>
@@ -1388,13 +1589,61 @@ function renderCollections() {
     </div>`).join('');
 }
 
+// ====== HOME TAB FILTER ======
 function filterProducts(tag, btn) {
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  const filtered = tag==='all' ? products : products.filter(p=>p.tag.includes(tag));
+  const filtered = tag==='all' ? products : products.filter(p=>p.tags.includes(tag)||p.col.includes(tag));
   renderProducts('productsGrid', filtered, 8);
 }
 
+// ====== SHOP FILTERS — FULLY FUNCTIONAL ======
+function applyShopFilters() {
+  const checks = document.querySelectorAll('.shop-filter:checked');
+  const catFilters=[], matFilters=[], occFilters=[], colFilters=[];
+  checks.forEach(c=>{
+    if(c.dataset.filter==='cat') catFilters.push(c.dataset.val);
+    if(c.dataset.filter==='mat') matFilters.push(c.dataset.val);
+    if(c.dataset.filter==='occ') occFilters.push(c.dataset.val);
+    if(c.dataset.filter==='col') colFilters.push(c.dataset.val);
+  });
+  const minP = parseInt(document.getElementById('priceMin').value)||0;
+  const maxP = parseInt(document.getElementById('priceMax').value)||999999;
+  const sortVal = document.getElementById('shopSort').value;
+
+  let filtered = products.filter(p=>{
+    const matchCat = catFilters.length===0 || catFilters.some(f=>p.tags.includes(f));
+    const matchMat = matFilters.length===0 || matFilters.some(f=>p.tags.includes(f));
+    const matchOcc = occFilters.length===0 || occFilters.some(f=>p.tags.includes(f));
+    const matchCol = colFilters.length===0 || colFilters.some(f=>p.col.includes(f));
+    const matchPrice = p.priceNum>=minP && p.priceNum<=maxP;
+    return matchCat && matchMat && matchOcc && matchCol && matchPrice;
+  });
+
+  if(sortVal==='priceasc') filtered.sort((a,b)=>a.priceNum-b.priceNum);
+  else if(sortVal==='pricedesc') filtered.sort((a,b)=>b.priceNum-a.priceNum);
+  else if(sortVal==='new') filtered = filtered.filter(p=>p.col.includes('new')).concat(filtered.filter(p=>!p.col.includes('new')));
+  else if(sortVal==='bestseller') filtered = filtered.filter(p=>p.col.includes('bestseller')).concat(filtered.filter(p=>!p.col.includes('bestseller')));
+
+  document.getElementById('shopCount').textContent = filtered.length;
+  renderProducts('shopGrid', filtered);
+}
+
+function resetFilters() {
+  document.querySelectorAll('.shop-filter').forEach(c=>c.checked=false);
+  document.getElementById('priceMin').value=0;
+  document.getElementById('priceMax').value=500000;
+  document.getElementById('shopSort').value='featured';
+  applyShopFilters();
+  showToast('Filters reset');
+}
+
+document.addEventListener('change', e=>{
+  if(e.target.classList.contains('shop-filter')) applyShopFilters();
+  if(e.target.id==='priceMin'||e.target.id==='priceMax') applyShopFilters();
+});
+
+// ====== FAQ ======
 function toggleFAQ(i) {
   const item = document.getElementById('faq'+i);
   const answer = document.getElementById('faqAnswer'+i);
@@ -1402,30 +1651,21 @@ function toggleFAQ(i) {
   answer.classList.toggle('open');
 }
 
-function toggleWishlist(btn) {
-  btn.classList.toggle('active');
-  btn.innerHTML = btn.classList.contains('active') ? '&#9829;' : '&#9825;';
-  showToast(btn.classList.contains('active') ? 'Added to Wishlist!' : 'Removed from Wishlist');
-}
-
+// ====== PRODUCT DETAIL ======
 function showProduct(id) {
   window.lastPage = currentPage;
   const p = products.find(x=>x.id===id);
   if(!p) return;
+  const imgs = [prodImages[p.id%prodImages.length], prodImages[(p.id+1)%prodImages.length], prodImages[(p.id+2)%prodImages.length], prodImages[(p.id+3)%prodImages.length]];
   const el = document.getElementById('productDetailContent');
   el.innerHTML = `
     <div class="pd-grid">
       <div class="pd-gallery">
         <div class="pd-main-img">
-          <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1200,#2a2000);display:flex;align-items:center;justify-content:center;min-height:400px">
-            <div style="text-align:center;padding:2rem">
-              <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--gold2)">${p.name}</div>
-              <div style="font-size:.8rem;color:var(--gray);margin-top:.5rem">${p.material}</div>
-            </div>
-          </div>
+          <img id="pdMainImg" src="${imgs[0]}" alt="${p.name} main view">
         </div>
         <div class="pd-thumbs">
-          ${[1,2,3,4].map(n=>`<div class="pd-thumb ${n===1?'active':''}" onclick="document.querySelectorAll('.pd-thumb').forEach(t=>t.classList.remove('active'));this.classList.add('active')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1200,#2a2000);min-height:70px;display:flex;align-items:center;justify-content:center"><span style="font-size:.6rem;color:var(--gold)">View ${n}</span></div></div>`).join('')}
+          ${imgs.map((img,n)=>`<div class="pd-thumb ${n===0?'active':''}" onclick="switchPdImg('${img}',this)"><img src="${img}" alt="${p.name} view ${n+1}" loading="lazy"></div>`).join('')}
         </div>
       </div>
       <div class="pd-info">
@@ -1450,7 +1690,6 @@ function showProduct(id) {
         </div>
         <div class="pd-btns">
           <button class="btn-primary" style="clip-path:none" onclick="showPage('contact')">Buy Now / Enquire</button>
-          <button class="btn-outline" style="clip-path:none" onclick="showToast('Added to Wishlist!')">Add to Wishlist</button>
         </div>
         <div style="margin-top:2rem;padding:1.5rem;background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.1);border-radius:4px">
           <p style="font-size:.78rem;color:rgba(255,255,255,.5);line-height:2">Free in-store pickup available. All jewellery comes with certificate of authenticity and proper invoice. Making charges and applicable taxes included in displayed price.</p>
@@ -1460,18 +1699,111 @@ function showProduct(id) {
   renderProducts('relatedProducts', products.filter(x=>x.id!==id), 4);
   showPage('product');
 }
+function switchPdImg(src, thumb) {
+  document.getElementById('pdMainImg').src = src;
+  document.querySelectorAll('.pd-thumb').forEach(t=>t.classList.remove('active'));
+  thumb.classList.add('active');
+}
+
+// ====== SEARCH ======
+function openSearch() {
+  document.getElementById('searchOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('searchInput').focus(),200);
+}
+function closeSearch() {
+  document.getElementById('searchOverlay').classList.remove('open');
+  document.getElementById('searchInput').value='';
+  document.getElementById('searchResults').innerHTML='';
+  document.getElementById('searchSuggestions').style.display='flex';
+}
+function setSearch(val) {
+  document.getElementById('searchInput').value = val;
+  doSearch(val);
+}
+function doSearch(q) {
+  const el = document.getElementById('searchResults');
+  const suggestions = document.getElementById('searchSuggestions');
+  if(!q.trim()){el.innerHTML='';suggestions.style.display='flex';return;}
+  suggestions.style.display='none';
+  const ql = q.toLowerCase();
+  // Search products
+  const matchedProducts = products.filter(p=>
+    p.name.toLowerCase().includes(ql)||p.material.toLowerCase().includes(ql)||p.tags.some(t=>t.includes(ql))
+  );
+  // Search categories
+  const matchedCats = categories.filter(c=>c.name.toLowerCase().includes(ql));
+  // Search collections
+  const matchedCols = collections.filter(c=>c.name.toLowerCase().includes(ql)||c.sub.toLowerCase().includes(ql));
+
+  function highlight(text) {
+    const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+    return text.replace(re,'<mark>$1</mark>');
+  }
+
+  let html = '';
+  if(matchedProducts.length){
+    html += `<div class="search-section-label">Products</div>`;
+    html += matchedProducts.slice(0,5).map(p=>`
+      <div class="search-result-item" onclick="closeSearch();showProduct(${p.id})">
+        <div class="search-result-thumb"><img src="${prodImages[p.id%prodImages.length]}" alt="${p.name}" loading="lazy"></div>
+        <div>
+          <div class="search-result-name">${highlight(p.name)}</div>
+          <div class="search-result-sub">${p.material}</div>
+        </div>
+        <div class="search-result-price">${p.price}</div>
+      </div>`).join('');
+  }
+  if(matchedCats.length){
+    html += `<div class="search-section-label" style="margin-top:1.5rem">Categories</div>`;
+    html += matchedCats.slice(0,3).map(c=>`
+      <div class="search-result-item" onclick="closeSearch();showPage('categories')">
+        <div class="search-result-thumb" style="background:linear-gradient(135deg,#1a1200,#2a2000)"></div>
+        <div>
+          <div class="search-result-name">${highlight(c.name)}</div>
+          <div class="search-result-sub">${c.count}</div>
+        </div>
+      </div>`).join('');
+  }
+  if(matchedCols.length){
+    html += `<div class="search-section-label" style="margin-top:1.5rem">Collections</div>`;
+    html += matchedCols.slice(0,3).map(c=>`
+      <div class="search-result-item" onclick="closeSearch();showPage('collections')">
+        <div class="search-result-thumb"><img src="${c.img}" alt="${c.name}" loading="lazy"></div>
+        <div>
+          <div class="search-result-name">${highlight(c.name)}</div>
+          <div class="search-result-sub">${c.sub}</div>
+        </div>
+      </div>`).join('');
+  }
+  if(!html) html = `<div class="search-empty">No results found for "${q}"</div>`;
+  el.innerHTML = html;
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  const si = document.getElementById('searchInput');
+  if(si) si.addEventListener('input', e=>doSearch(e.target.value));
+});
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape') closeSearch();
+});
 
 // ====== NAVIGATION ======
 let currentPage = 'home';
 function showPage(page) {
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   const el = document.getElementById('page-'+page);
-  if(el) {
+  if(el){
     el.classList.add('active');
     currentPage = page;
     window.scrollTo({top:0,behavior:'smooth'});
+    updateNavActive(page);
+    if(page==='shop') setTimeout(applyShopFilters,50);
     setTimeout(initReveal,100);
   }
+}
+function updateNavActive(page) {
+  document.querySelectorAll('#navLinks a').forEach(a=>{
+    a.classList.toggle('active-link', a.dataset.page===page);
+  });
 }
 
 function toggleMenu() {
@@ -1485,15 +1817,13 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),3000);
 }
-
 function submitForm() {
   showToast('Message sent! We will contact you shortly.');
 }
 
 // ====== SCROLL EFFECTS ======
 window.addEventListener('scroll',()=>{
-  const nav = document.getElementById('navbar');
-  nav.classList.toggle('scrolled', window.scrollY > 50);
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
   initReveal();
 });
 
@@ -1518,15 +1848,13 @@ function createParticles() {
 
 // ====== INIT ======
 window.addEventListener('load',()=>{
-  setTimeout(()=>{
-    document.getElementById('loader').classList.add('hide');
-  },2500);
+  setTimeout(()=>document.getElementById('loader').classList.add('hide'),2500);
   renderCategories('categoriesGrid');
   renderCategories('allCategoriesGrid');
   renderProducts('productsGrid',products,8);
-  renderProducts('shopGrid',products);
-  renderProducts('bestSellersGrid',products,8);
-  renderProducts('bridalGrid',products.filter(p=>p.tag.includes('bridal')));
+  applyShopFilters();
+  renderProducts('bestSellersGrid',products.filter(p=>p.col.includes('bestseller')));
+  renderProducts('bridalGrid',products.filter(p=>p.tags.includes('bridal')));
   renderFeatures();
   renderTestimonials('testimonialsPreview',3);
   renderTestimonials('allTestimonials');
@@ -1537,10 +1865,9 @@ window.addEventListener('load',()=>{
   renderCare();
   renderCollections();
   createParticles();
+  updateNavActive('home');
   setTimeout(initReveal,300);
 });
-
-// history.back simulation
 window.lastPage = 'home';
 </script>
 </body>
